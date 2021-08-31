@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="d-flex my-3">
+    <span>{{ band }}</span>
+    <input type="text" />
+    <button (click)="onTestButtonClick()">Test</button>
+  </div>
+  <div *ngFor="let band of bands; let i = index">
+    <p>{{ i + 1 }}. {{ band.name }}</p>
+  </div>
+</div>

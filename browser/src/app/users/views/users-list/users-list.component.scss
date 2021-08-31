@@ -1,0 +1,11 @@
+.actions {
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+  -ms-flex-align: center;
+  align-items: flex-end;
+
+  &__title {
+    margin: 0 !important;
+  }
+}

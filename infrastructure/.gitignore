@@ -1,0 +1,8 @@
+cdk.context.json
+.cdk.staging/
+cdk.out/
+*.tabl.json
+*.js
+*.d.ts
+!/cdk-backend/bin
+/cdk-frontend/templates/asset*

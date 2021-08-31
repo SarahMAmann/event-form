@@ -1,0 +1,11 @@
+{
+  "projectName":"ProjectName",
+  "domain": "domain.com",
+  "env": "staging",
+  "sites": [{
+    "projectName":"ProjectName",
+    "domain": "domain.com",
+    "subdomain": "www",
+    "relativeSitePath":"config/"
+  }]
+}

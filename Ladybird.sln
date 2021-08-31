@@ -1,0 +1,64 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "server\API\API.csproj", "{2C9C3596-8EE9-46EF-BF6A-00A40277A140}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "server\Data\Data.csproj", "{CCB507A5-1E1F-472D-8BAF-43B7038EE890}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{425D8782-B24B-4F36-B52E-5A5C81217FC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root Items", "Root Items", "{BE74D293-F2E1-44C1-B9E5-10535DF5B55B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		server\README.md = server\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "server\Services\Services.csproj", "{44E5FE85-3823-4B76-AC93-20FCBFB5ACE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{317081B0-AB58-4035-8712-C86F55D99D94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "server\IdentityServer\IdentityServer.csproj", "{0CE431E7-4DF1-4EC1-BDE1-87B24AB39061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthData", "server\AuthData\AuthData.csproj", "{4BF79843-3C4E-41FF-A2D5-081D5A1336B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Tests", "server\API.Tests\API.Tests.csproj", "{3663707F-3731-4FD4-826F-32E3C1C7143B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C9C3596-8EE9-46EF-BF6A-00A40277A140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C9C3596-8EE9-46EF-BF6A-00A40277A140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C9C3596-8EE9-46EF-BF6A-00A40277A140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C9C3596-8EE9-46EF-BF6A-00A40277A140}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCB507A5-1E1F-472D-8BAF-43B7038EE890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCB507A5-1E1F-472D-8BAF-43B7038EE890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCB507A5-1E1F-472D-8BAF-43B7038EE890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCB507A5-1E1F-472D-8BAF-43B7038EE890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{425D8782-B24B-4F36-B52E-5A5C81217FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{425D8782-B24B-4F36-B52E-5A5C81217FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{425D8782-B24B-4F36-B52E-5A5C81217FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{425D8782-B24B-4F36-B52E-5A5C81217FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E5FE85-3823-4B76-AC93-20FCBFB5ACE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E5FE85-3823-4B76-AC93-20FCBFB5ACE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E5FE85-3823-4B76-AC93-20FCBFB5ACE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E5FE85-3823-4B76-AC93-20FCBFB5ACE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE431E7-4DF1-4EC1-BDE1-87B24AB39061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE431E7-4DF1-4EC1-BDE1-87B24AB39061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE431E7-4DF1-4EC1-BDE1-87B24AB39061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE431E7-4DF1-4EC1-BDE1-87B24AB39061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF79843-3C4E-41FF-A2D5-081D5A1336B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF79843-3C4E-41FF-A2D5-081D5A1336B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF79843-3C4E-41FF-A2D5-081D5A1336B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF79843-3C4E-41FF-A2D5-081D5A1336B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D282108C-FF8E-45C5-8EEB-1FBE83EF3424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D282108C-FF8E-45C5-8EEB-1FBE83EF3424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D282108C-FF8E-45C5-8EEB-1FBE83EF3424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D282108C-FF8E-45C5-8EEB-1FBE83EF3424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

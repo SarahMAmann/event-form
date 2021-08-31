@@ -1,0 +1,41 @@
+name: Build Angular
+
+on: push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/cache
+          !~/cache/exclude
+          **/node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      working-directory: ./browser
+      run: |
+        npm ci
+        npm run build:prod
+
+    # Push build files to release section of repo using github action create-relase
+    # - name: Push build to releases
+    # uses: ncipollo/release-action@v1 
+    # with: 
+    #     artifacts: "dist/angular-githubaction/*"
+    #     token: ${{ secrets.TOKEN }}

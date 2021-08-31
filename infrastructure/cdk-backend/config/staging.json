@@ -1,0 +1,43 @@
+{
+  "projectName": "TestApp",
+  "sslCertificateArn": "ACM-certArn",
+  "domainName": "project.com",
+  "containers": [
+    {
+      "containerName": "api",
+      "port": 5000,
+      "cpu": 256,
+      "memory": 512,
+      "envs": {
+        "key": "value",
+        "secondKey": "secondValue"
+      },
+      "isEssential": true
+    },
+    {
+      "containerName": "identityServer",
+      "port": 5001,
+      "cpu": 256,
+      "memory": 512,
+      "envs": {
+        "ASPNETCORE_ENVIRONMENT": "staging"
+      },
+      "isEssential": true
+    }
+  ],
+  "apiContainerName": "api",
+  "apiContainerPort": 5000,
+  "apiTargetGroupHealthCheck": "/api/healthCheck",
+  "identityContainerName": "identityServer",
+  "identityContainerPort": 5001,
+  "identityServerTargetGroupHealthCheck": "/identity/healthCheck",
+  "taskMemory": 1024,
+  "taskCpu": 512,
+  "numberOfTasks": 1,
+  "serviceName": "api",
+  "rds": {
+    "identityServerDatabaseName": "auth",
+    "appDatabaseName": "ladybird"
+  },
+  "vpcId": "your-default-vpcId"
+}

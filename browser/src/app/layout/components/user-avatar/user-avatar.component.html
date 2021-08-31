@@ -1,0 +1,4 @@
+<div class="user-avatar {{size}}" [ngClass]="color">
+  <img *ngIf="avatarImageUrl; else elseBlock" src="{{avatarImageUrl}}" alt="avatar" class="rounded-circle">
+  <ng-template #elseBlock>{{firstInitial}}{{lastInitial}}</ng-template>
+</div>

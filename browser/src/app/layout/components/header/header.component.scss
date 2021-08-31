@@ -1,0 +1,35 @@
+@import 'variables';
+
+.navbar {
+  background-color: $primary;
+  height: 70px;
+}
+
+.navbar-nav {
+  margin-top: 0 !important;
+}
+
+#navigation-links {
+  padding-right: 3%;
+  color: white;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 33px;
+}
+
+#home-title {
+  padding-left: 3%;
+}
+
+#login {
+  padding-right: 10px;
+  border-right: solid;
+  border-right-color: white;
+  border-right-width: 1px;
+}
+
+#register {
+  padding-left: 10px;
+}

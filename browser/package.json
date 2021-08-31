@@ -1,0 +1,72 @@
+{
+  "name": "ladybird-angular",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:prod": "ng build --prod=true",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "ng lint"
+    }
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "latest",
+    "@angular/common": "latest",
+    "@angular/compiler": "latest",
+    "@angular/core": "latest",
+    "@angular/forms": "latest",
+    "@angular/localize": "latest",
+    "@angular/platform-browser": "latest",
+    "@angular/platform-browser-dynamic": "latest",
+    "@angular/router": "latest",
+    "@ng-bootstrap/ng-bootstrap": "latest",
+    "@ngrx/effects": "latest",
+    "@ngrx/entity": "latest",
+    "@ngrx/router-store": "latest",
+    "@ngrx/schematics": "latest",
+    "@ngrx/store": "latest",
+    "@ngrx/store-devtools": "^9.2.0",
+    "bootstrap": "^4.5.0",
+    "core-js": "latest",
+    "google-libphonenumber": "^3.2.10",
+    "intl-tel-input": "^14.1.0",
+    "ngx-bootstrap": "^5.6.1",
+    "ngx-intl-tel-input": "^2.4.2",
+    "ngx-toastr": "^12.1.0",
+    "oidc-client": "^1.10.1",
+    "rxjs": "latest",
+    "tslib": "latest",
+    "zone.js": "latest"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "latest",
+    "@angular/cli": "latest",
+    "@angular/compiler-cli": "latest",
+    "@angular/language-service": "latest",
+    "@angular/localize": "latest",
+    "@types/jasmine": "latest",
+    "@types/jasminewd2": "latest",
+    "@types/node": "^14.14.20",
+    "codelyzer": "latest",
+    "husky": "^4.2.5",
+    "jasmine-core": "latest",
+    "jasmine-spec-reporter": "latest",
+    "karma": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-coverage-istanbul-reporter": "latest",
+    "karma-jasmine": "latest",
+    "karma-jasmine-html-reporter": "latest",
+    "ngrx-store-freeze": "latest",
+    "protractor": "latest",
+    "ts-node": "latest",
+    "tslint": "latest",
+    "typescript": "4.0.5"
+  }
+}

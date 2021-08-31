@@ -1,0 +1,91 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: ./API/Dockerfile
+    depends_on:
+      - db
+      # env_file:
+      # - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      - net-ladybird
+
+  auth-server:
+    build:
+      context: ./server
+      dockerfile: ./IdentityServer/Dockerfile
+    depends_on:
+      - db
+      - api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "${PORT_AUTH_SERVER-5001}:5001"
+    networks:
+      - net-ladybird
+
+  db:
+    image: mariadb/server:10.4
+    environment:
+      MARIADB_DATABASE: ladybird
+      MARIADB_ROOT_PASSWORD: ok%*gVfnPD8G3vxbyvD
+      MARIADB_USER: ladybird-db-user
+      MARIADB_PASSWORD: 4zMOXbI314aIS0zeQU
+    ports:
+      - "${PORT_DB-3307}:3306"
+    volumes:
+      - "./Temp/mariadb/api:/var/lib/mysql"
+      - "./server/Sql/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql"
+    networks:
+      - net-ladybird
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      #      - "4566-4599:4566-4599" #legacy ports
+      - "4566:4566" #single edge router port
+      - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+    environment:
+      - SERVICES=${SERVICES-"s3,sqs,lambda"} #s3,lambda,etc
+      - DEBUG=${DEBUG- } #1, 2, 3, etc
+      - DATA_DIR=${DATA_DIR-/tmp/localstack/data}
+      - PORT_WEB_UI=${PORT_WEB_UI-8080}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- } #docker, local, docker-reuse
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOST_TMP_FOLDER=${TMPDIR}
+    volumes:
+      - "./Temp/localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - net-ladybird
+
+  nginx:
+    restart: always
+    ports:
+      - "80:80"
+      - "81:81"
+    build:
+      context: ./Nginx
+      dockerfile: ./Dockerfile
+    depends_on:
+      - api
+    networks:
+      - net-ladybird
+
+  ui:
+    build:
+      context: ./browser
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./browser/src:/usr/app/src
+      - /ui/src/node_modules
+    networks:
+      - net-ladybird
+
+networks:
+  net-ladybird:
+    name: net-ladybird

@@ -1,0 +1,6 @@
+.dockerignore
+Dockerfile
+.editorconfig
+README.md
+bin
+obj

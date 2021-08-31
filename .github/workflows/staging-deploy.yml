@@ -1,0 +1,119 @@
+on:
+  push:
+    branches:
+      - staging
+
+name: Deploy to AWS
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: staging
+      ECS_CLUSTER: staging
+      ECS_SERVICE: api
+
+    steps:
+      - name: Begin API build/deploy
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ### TODO: Set via branch switcher after testing
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ### NOTE: ecr-repos have no spaces or capitals in names and can be derived from the env and container (ie. developapi)
+          ECR_REPOSITORY_API: "${{env.NODE_ENV}}api"
+          ECR_REPOSITORY_IDENTITY: "${{env.NODE_ENV}}identityserver"
+          IMAGE_TAG: ${{ github.sha }}
+          API_CONNECTION_STRING: ${{ secrets.STAGING_API_CONNECTION_STRING }}
+          IDENTITY_CONNECTION_STRING: ${{ secrets.STAGING_IDENTITY_CONNECTION_STRING }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          sudo apt-get update
+          sudo apt-get install -y jq
+          (cd server/API && jq --arg value "$API_CONNECTION_STRING" '.ConnectionString = $value' appsettings.staging.json > temp && mv temp appsettings.staging.json)
+          (cd server/IdentityServer && jq --arg value "$IDENTITY_CONNECTION_STRING" '.ConnectionString = $value' appsettings.staging.json > temp && mv temp appsettings.staging.json)
+          (cd server && docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG -f ./API/Dockerfile .)
+          (cd server && docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_IDENTITY:$IMAGE_TAG -f ./IdentityServer/Dockerfile .)
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_IDENTITY:$IMAGE_TAG
+          echo "::set-output name=api::$ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG"
+          echo "::set-output name=identityserver::$ECR_REGISTRY/$ECR_REPOSITORY_IDENTITY:$IMAGE_TAG"
+
+      - name: Update Task Def for API
+        id: task-def-api
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: "deployment/cdk-backend/task-definitions/${{env.NODE_ENV}}-task-def.json"
+          container-name: "${{env.NODE_ENV}}-api"
+          image: ${{ steps.build-image.outputs.api }}
+
+      - name: Update Task Def for IdentityServer
+        id: task-def-identityserver
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-api.outputs.task-definition }}
+          container-name: "${{env.NODE_ENV}}-identityserver"
+          image: ${{ steps.build-image.outputs.identityserver }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-identityserver.outputs.task-definition }}
+          service: api
+          cluster: ${{ env.NODE_ENV }}
+          wait-for-service-stability: true
+
+      - name: Scale up Service
+        id: scale-up-service
+        env:
+          CLUSTER: ${{ env.ECS_CLUSTER }}
+          SERVICE: ${{ env.ECS_SERVICE }}
+        run: |
+          (cd deployment/cdk-backend/scripts/boto && pip3 install -r requirements.txt \
+            && python3 update-service.py $CLUSTER $SERVICE)
+
+      - name: Begin frontend build/deplopy
+        uses: actions/checkout@master
+      - name: Use Node.js 12.x to build project
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Installing dependencies and building application
+        run: |
+          (npm install -g @angular/cli@latest)
+          (cd browser && npm install)
+          (cd browser && ng build --configuration=staging)
+      - name: Upload build dist to s3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.STAGING_AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1 '   # optional: defaults to us-east-1
+          SOURCE_DIR: 'browser/dist'      # optional: defaults to entire repository
+      - name: Invalidate Cache
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ secrets.SITE_DISTRIBUTION }}
+          PATHS: '/*'
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -1,0 +1,10 @@
+<div class="actions">
+  <h3 class="actions__title">Users</h3>
+  <button class="btn btn-primary" (click)="onAdd()">Add</button>
+</div>
+
+<app-users-list-table
+  [users]="users$ | async"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+></app-users-list-table>

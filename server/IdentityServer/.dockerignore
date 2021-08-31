@@ -1,0 +1,5 @@
+.dockerignore
+Dockerfile
+.editorconfig
+node_modules
+.nvmrc

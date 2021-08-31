@@ -1,0 +1,79 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Mac bundle stuff
+*.dmg
+*.app
+
+# resharper
+*_Resharper.*
+*.Resharper
+
+# dotCover
+*.dotCover
+
+# Autosave files
+*~
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
+
+# dependencies
+node_modules/
+packages/
+
+# build
+[Oo]bj/
+[Bb]in/
+TestResults/
+dist/
+out-tsc/
+# Only exists if Bazel was run
+/bazel-out
+
+# globs
+*.sln.cache
+*.suo
+*.cache
+*.pidb
+*.env
+*.userprefs
+*.usertasks
+*.user
+*.tar.gz
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# Project
+Temp/
+
+!server/IdentityServer/wwwroot/lib/bootstrap/dist/
+!server/IdentityServer/wwwroot/lib/jquery-validation/dist/
